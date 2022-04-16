@@ -260,6 +260,7 @@ void loop()
     int ram_usage = x.substring(22, 25).toInt();
     long net_up = x.substring(25, 31).toInt();
     long net_dn = x.substring(31, 37).toInt();
+    long hashrate = x.substring(37, 40).toInt();
 
     //lcd.clear();
 
@@ -302,9 +303,15 @@ void loop()
     lcd.print("GPU");
     lcd.setCursor(7, 1);
     //lcd.write(0x7e);
-    lcd.print(gpu_usage);
-    lcd.print("%");
-    for (int i = String(gpu_usage).length(); i < 3; i++)
+    if (hashrate > 0) {
+      lcd.print((float)hashrate / float(10), 1);
+      lcd.print("MH/s");
+    } else {
+      lcd.print(gpu_usage);
+      lcd.print("%");
+    }
+
+    for (int i = String(gpu_usage).length(); i < 7; i++)
       lcd.print(" ");
     lcd.setCursor(6, 2);
     if (gpu_fan_icon == 0)
